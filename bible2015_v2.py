@@ -12,21 +12,8 @@ url = "https://holybible.ge/geo/bible/%E1%83%90%E1%83%AE%E1%83%90%E1%83%9A\
     1%83%92%E1%83%90%E1%83%9B%E1%83%9D%E1%83%AA%E1%83%94%E1%83%9B%E1%83%90-2015/{}/{}/0/0/1"
 
 
-# gets the soup for each book
-def get_soup(url, num, chapter=1):
-    r = requests.get(
-        "http://localhost:8050/render.html",
-        params={
-            "url": url.format(num, chapter),
-            "wait": 2
-        }
-    )
-    soup = BeautifulSoup(r.text, 'html.parser')
-    return soup
-
-
 # goes through each chapter for each book
-def get_book(soup, num, book_name, chapter):
+def get_book(num, book_name, chapter):
     full_dict = {}
     full_dict[book_name] = {}
     full_dict[book_name][f"{chapter}_თავი"] = {}
@@ -44,17 +31,7 @@ def get_book(soup, num, book_name, chapter):
         verses_text = [item.text for item in verses]
         # print(book_name, chapter, verses_text[0])
     except IndexError:
-        r = requests.get(
-            "http://localhost:8050/render.html",
-            params={
-                "url": url.format(num, chapter),
-                "wait": 2
-            }
-        )
-        time.sleep(2)
-        soup = BeautifulSoup(r.text, 'html.parser')
-        verses = soup.findAll(class_='bible-text bible-text-v1')
-        verses_text = [item.text for item in verses]
+        pass
         # print(book_name, chapter, verses_text[0])
 
     for item in verses_text:
@@ -90,8 +67,7 @@ def get_book(soup, num, book_name, chapter):
 
 for index, value in enumerate(books, 4):
     with alive_bar(value[0], title='Downloading Bible Text') as bar:
-        soup = get_soup(url, num=index)
         for i in range(1, value[0] + 1):
-            get_book(soup, num=index, book_name=value[1], chapter=i)
+            get_book(num=index, book_name=value[1], chapter=i)
             bar.text = f"working on {value[1]}-{i}"
             bar()
