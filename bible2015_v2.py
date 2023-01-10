@@ -1,8 +1,9 @@
+import json
 import requests
 from bs4 import BeautifulSoup
-import json
-from book_titles_and_chapters import books
 from alive_progress import alive_bar
+
+from book_titles_and_chapters import books
 
 
 url = "https://holybible.ge/geo/bible/%E1%83%90%E1%83%AE%E1%83%90%E1%83%9A\
