@@ -4,13 +4,7 @@ from book_titles_and_chapters import books
 from bible2015_v2 import get_book
 
 
-def read_json(filename='full_bible.json'):
-    empty_book_list = []
-
-    with open(filename, 'r') as f:
-        # Load the JSON data into a Python variable
-        data = json.load(f)
-
+def add_books_and_chapters(empty_book_list, data):
     for book in data.keys():
         chapters = data[book]
         for chapter in chapters.keys():
@@ -26,6 +20,28 @@ def read_json(filename='full_bible.json'):
                     value.append(item[2])
     else:
         print("No empty chapters found.")
+
+
+def read_json(filename='full_bible.json'):
+    empty_book_list = []
+
+    with open(filename, 'r') as f:
+        # Load the JSON data into a Python variable
+        data = json.load(f)
+
+    if len(data) != 66:
+        # print(data.keys())
+        for book in books:
+            if book[1] not in data.keys():
+                # print(book[1])
+                data[book[1]] = {}
+                for chapter in range(1, book[0] + 1):
+                    data[book[1]][f"{chapter}_თავი"] = {}
+        with open(filename, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+        add_books_and_chapters(empty_book_list, data)
+    else:
+        add_books_and_chapters(empty_book_list, data)
     return empty_book_list
 
 
