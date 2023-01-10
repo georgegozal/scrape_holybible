@@ -13,7 +13,7 @@ url = "https://holybible.ge/geo/bible/%E1%83%90%E1%83%AE%E1%83%90%E1%83%9A\
 
 
 # goes through each chapter for each book
-def get_book(num, book_name, chapter):
+def get_book(num, book_name, chapter, filename="full_bible.json"):
     full_dict = {}
     full_dict[book_name] = {}
     full_dict[book_name][f"{chapter}_თავი"] = {}
@@ -42,7 +42,7 @@ def get_book(num, book_name, chapter):
 
     try:
         # Open the JSON file for reading
-        with open('full_bible.json', 'r') as f:
+        with open(filename, 'r') as f:
             # Load the JSON data into a Python variable
             data = json.load(f)
 
@@ -55,13 +55,13 @@ def get_book(num, book_name, chapter):
 
         # Open the JSON file for writing
         # Writing to sample.json
-        with open('full_bible.json', 'w', encoding='utf-8') as f:
+        with open(filename, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
     except FileNotFoundError:
         # Open the JSON file for writing
         # # Writing to sample.json
-        with open('full_bible.json', 'w', encoding='utf-8') as f:
+        with open(filename, 'w', encoding='utf-8') as f:
             json.dump(full_dict, f, ensure_ascii=False, indent=4)
 
 
