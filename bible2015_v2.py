@@ -3,7 +3,6 @@ from bs4 import BeautifulSoup
 import json
 from book_titles_and_chapters import books
 from alive_progress import alive_bar
-import time
 
 
 url = "https://holybible.ge/geo/bible/%E1%83%90%E1%83%AE%E1%83%90%E1%83%9A\
@@ -69,5 +68,5 @@ for index, value in enumerate(books, 4):
     with alive_bar(value[0], title='Downloading Bible Text') as bar:
         for i in range(1, value[0] + 1):
             get_book(num=index, book_name=value[1], chapter=i)
-            bar.text = f"working on {value[1]}-{i}"
+            bar.text = f"{value[1]}: {i} თავი ⇣"
             bar()
