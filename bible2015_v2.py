@@ -65,9 +65,14 @@ def get_book(num, book_name, chapter):
             json.dump(full_dict, f, ensure_ascii=False, indent=4)
 
 
-for index, value in enumerate(books, 4):
-    with alive_bar(value[0], title='Downloading Bible Text') as bar:
-        for i in range(1, value[0] + 1):
-            get_book(num=index, book_name=value[1], chapter=i)
-            bar.text = f"{value[1]}: {i} თავი ⇣"
-            bar()
+def run():
+    for index, value in enumerate(books, 4):
+        with alive_bar(value[0], title='Downloading Bible Text') as bar:
+            for i in range(1, value[0] + 1):
+                get_book(num=index, book_name=value[1], chapter=i)
+                bar.text = f"{value[1]}: {i} თავი ⇣"
+                bar()
+
+
+if __name__ == "__main__":
+    run()
